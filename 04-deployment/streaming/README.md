@@ -14,6 +14,7 @@ python test.py
 Buiding and running the Docker
 ```bash
 docker build -t stream-model-duration:v1 .
+```
 
 Export AWS keys
 ```
