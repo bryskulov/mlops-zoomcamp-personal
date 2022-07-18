@@ -15,9 +15,10 @@ Buiding and running the Docker
 ```bash
 docker build -t stream-model-duration:v1 .
 
-export AWS_ACCESS_KEY_ID=AKIAUYGMJGYELF5TVPFY
-export AWS_SECRET_ACCESS_KEY=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
-export AWS_DEFAULT_REGION=us-east-1
+Export AWS keys
+```
+export ***
+```
 
 docker run -it --rm \
     -p 8080:8080 \
