@@ -31,3 +31,6 @@ __pycache__
 **/models/
 .bin
 *.db
+
+# keys
+keys.sh
