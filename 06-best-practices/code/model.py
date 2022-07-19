@@ -9,7 +9,7 @@ import mlflow
 
 
 def load_model(run_id):
-    logged_model = f's3://mlflow-models-alexey/1/{run_id}/artifacts/model'
+    logged_model = f's3://mlflow-models-bryskulov/1/{run_id}/artifacts/model'
     # logged_model = f'runs:/{RUN_ID}/model'
     model = mlflow.pyfunc.load_model(logged_model)
     return model
@@ -104,5 +104,10 @@ def init(prediction_stream_name: str, run_id: str, test_run: bool):
         callbacks.append(kinesis_callback.put_record)
 
 
-    model_service = ModelService(model)
+    model_service = ModelService(
+        model=model, 
+        model_version=run_id,
+        callbacks=callbacks
+    )
+
     return model_service
