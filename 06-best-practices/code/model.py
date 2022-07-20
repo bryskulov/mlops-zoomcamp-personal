@@ -5,7 +5,6 @@ import base64
 
 import mlflow
 
-# kinesis_client = boto3.client('kinesis')
 
 def get_model_location(run_id):
     model_location = os.getenv('MODEL_LOCATION')
@@ -51,9 +50,9 @@ class ModelService():
 
     def lambda_handler(self, event):
         # print(json.dumps(event))
-
+        
         predictions_events = []
-
+        
         for record in event['Records']:
             encoded_data = record['kinesis']['data']
             ride_event = base64_decode(encoded_data)
@@ -61,10 +60,10 @@ class ModelService():
             # print(ride_event)
             ride = ride_event['ride']
             ride_id = ride_event['ride_id']
-
+        
             features = self.prepare_features(ride)
             prediction = self.predict(features)
-
+        
             prediction_event = {
                 'model': 'ride_duration_prediction_model',
                 'version': self.model_version,
@@ -100,23 +99,30 @@ class KinesisCallback():
         )
 
 
+def create_kinesis_client():
+    endpoint_url = os.getenv('KINESIS_ENDPOINT_URL')
+
+    if endpoint_url is None:
+        return boto3.client('kinesis')
+    
+    return boto3.client('kinesis', endpoint_url=endpoint_url)
+
+
 def init(prediction_stream_name: str, run_id: str, test_run: bool):
     model = load_model(run_id)
-
 
     callbacks = []
 
     if not test_run:
-        kinesis_client = boto3.client('kinesis')
+        kinesis_client = create_kinesis_client()
         kinesis_callback = KinesisCallback(
             kinesis_client,
             prediction_stream_name
         )
         callbacks.append(kinesis_callback.put_record)
 
-
     model_service = ModelService(
-        model=model, 
+        model=model,
         model_version=run_id,
         callbacks=callbacks
     )

@@ -1,5 +1,7 @@
 * Bash scripts
 
+** Integration test
+
 ```bash
 docker build -t stream-model-duration:v2 .
 ```
@@ -28,4 +30,18 @@ docker run -it --rm \
     -e AWS_DEFAULT_REGION="${AWS_DEFAULT_REGION}" \
     -v $(pwd)/model:/app/model \
     stream-model-duration:v2
+```
+
+** Kinesis test
+
+```bash
+aws --endpoint-url=http://localhost:4566 \
+    kinesis list-streams
+```
+
+```bash
+aws --endpoint-url=http://localhost:4566 \
+    kinesis create-stream \
+    --stream-name ride_predictions \
+    --shard-count 1
 ```
