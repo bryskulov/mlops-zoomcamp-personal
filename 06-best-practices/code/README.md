@@ -53,3 +53,20 @@ black .
 pylint --recursive=y .
 pytest tests/
 ```
+
+* Make
+
+Without makefiles:
+
+```
+isort .
+black .
+pylint --recursive=y .
+pytest tests/
+```
+
+To prepare the project, run
+
+```
+make setup
+```
