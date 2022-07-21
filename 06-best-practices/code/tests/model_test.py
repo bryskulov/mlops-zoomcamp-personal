@@ -1,6 +1,6 @@
 from pathlib import Path
 
-import model
+import model  # pylint: disable=import-error
 
 
 def read_text(file):

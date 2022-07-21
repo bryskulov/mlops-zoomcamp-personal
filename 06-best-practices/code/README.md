@@ -45,3 +45,11 @@ aws --endpoint-url=http://localhost:4566 \
     --stream-name ride_predictions \
     --shard-count 1
 ```
+
+Formating
+``` bash
+isort .
+black .
+pylint --recursive=y .
+pytest tests/
+```
