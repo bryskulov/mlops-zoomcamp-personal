@@ -1,3 +1,5 @@
+# pylint: disable=duplicate-code
+
 import os
 import boto3 
 import json

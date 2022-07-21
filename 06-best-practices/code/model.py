@@ -40,7 +40,7 @@ class ModelService():
 
     def prepare_features(self, ride):
         features = {}
-        features['PU_DO'] = '%s_%s' % (ride['PULocationID'], ride['DOLocationID'])
+        features['PU_DO'] = f"{ride['PULocationID']}_{ride['DOLocationID']}"
         features['trip_distance'] = ride['trip_distance']
         return features
 
@@ -85,6 +85,8 @@ class ModelService():
 
 class KinesisCallback():
 
+    # pylint: disable:too-few-public-methods
+
     def __init__(self, kinesis_client, prediction_stream_name):
         self.kinesis_client = kinesis_client
         self.prediction_stream_name = prediction_stream_name
@@ -100,6 +102,9 @@ class KinesisCallback():
 
 
 def create_kinesis_client():
+    """
+    Create a kinesis client
+    """
     endpoint_url = os.getenv('KINESIS_ENDPOINT_URL')
 
     if endpoint_url is None:
